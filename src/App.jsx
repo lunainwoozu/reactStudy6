@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
 import Places from './components/Places.jsx';
 import { AVAILABLE_PLACES } from './data.js';
@@ -57,20 +57,21 @@ function App() {
     }
   }
 
-  function handleRemovePlace() {
-    setPickedPlaces((prevPickedPlaces) =>
-      prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
-    );
+  const handleRemovePlace = useCallback(
+    function handleRemovePlace() {
+      setPickedPlaces((prevPickedPlaces) =>
+        prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
+      );
 
-    setModalIsopen(false)
+      setModalIsopen(false)
 
-    // 스토리지에서 삭제
-    const storedPlaceIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
-    localStorage.setItem(
-      'selectedPlaces',
-      JSON.stringify(storedPlaceIds.filter((id) => id !== selectedPlace.current))
-    );
-  }
+      // 스토리지에서 삭제
+      const storedPlaceIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
+      localStorage.setItem(
+        'selectedPlaces',
+        JSON.stringify(storedPlaceIds.filter((id) => id !== selectedPlace.current))
+      );
+    }, [])
 
   return (
     <>

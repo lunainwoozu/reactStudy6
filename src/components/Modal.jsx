@@ -14,7 +14,7 @@ function Modal({ open, children, onClose }) {
 
   return createPortal(
     <dialog className="modal" ref={dialog} onClose={onClose}>
-      {children}
+      {open ? children : null} {/* childen 요소 항시 렌더링 되지 않도록 */}
     </dialog>,
     document.getElementById('modal')
   );
